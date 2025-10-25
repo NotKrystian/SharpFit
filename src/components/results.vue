@@ -17,8 +17,25 @@
         </div>
         <h2 class="product-name">{{ product.name }}</h2>
         <p class="price">{{ product.price }}</p>
-        <button @click="addToCart(product)">Add to Cart</button>
+
+        <!-- Size selectors -->
+        <div class="selectors">
+          <select v-model="product.selectedChest">
+            <option disabled value="">Chest (in)</option>
+            <option v-for="n in chestSizes" :key="n" :value="n">{{ n }}"</option>
+          </select>
+
+          <select v-model="product.selectedSize">
+            <option disabled value="">Size</option>
+            <option v-for="size in sizes" :key="size" :value="size">{{ size }}</option>
+          </select>
+        </div>
+
+        <button @click="addToCart(product)">
+          Add to Cart
+        </button>
       </div>
+
       <p v-if="filteredProducts.length === 0" class="no-results">No products found.</p>
     </div>
   </div>
@@ -30,11 +47,13 @@ export default {
   data () {
     return {
       searchQuery: '',
+      chestSizes: Array.from({ length: 23 }, (_, i) => 34 + i), // 34-56
+      sizes: ['S', 'M', 'L', 'XL', 'XXL'],
       products: [
-        { id: 1, name: 'Classic Tuxedo', price: '$499.99', image: 'https://via.placeholder.com/300x400?text=Classic+Tuxedo' },
-        { id: 2, name: 'Slim Fit Suit', price: '$399.99', image: 'https://via.placeholder.com/300x400?text=Slim+Fit+Suit' },
-        { id: 3, name: 'Modern Blazer', price: '$349.99', image: 'https://via.placeholder.com/300x400?text=Modern+Blazer' },
-        { id: 4, name: 'Luxury Hoodie Suit', price: '$299.99', image: 'https://via.placeholder.com/300x400?text=Luxury+Hoodie+Suit' }
+        { id: 1, name: 'Classic Tuxedo', price: '$499.99', image: 'https://via.placeholder.com/300x400?text=Classic+Tuxedo', selectedChest: '', selectedSize: '' },
+        { id: 2, name: 'Slim Fit Suit', price: '$399.99', image: 'https://via.placeholder.com/300x400?text=Slim+Fit+Suit', selectedChest: '', selectedSize: '' },
+        { id: 3, name: 'Modern Blazer', price: '$349.99', image: 'https://via.placeholder.com/300x400?text=Modern+Blazer', selectedChest: '', selectedSize: '' },
+        { id: 4, name: 'Luxury Hoodie Suit', price: '$299.99', image: 'https://via.placeholder.com/300x400?text=Luxury+Hoodie+Suit', selectedChest: '', selectedSize: '' }
       ]
     }
   },
@@ -47,7 +66,11 @@ export default {
   },
   methods: {
     addToCart (product) {
-      alert(`Added to cart: ${product.name}`)
+      if (!product.selectedChest || !product.selectedSize) {
+        alert('Please select chest size and overall size.')
+        return
+      }
+      alert(`Added to cart: ${product.name} - Chest: ${product.selectedChest}", Size: ${product.selectedSize}`)
     }
   }
 }
@@ -78,6 +101,7 @@ export default {
   font-size: 1rem;
   outline: none;
   transition: box-shadow 0.3s ease;
+  text-align: center;
 }
 
 .search-container input:focus {
@@ -139,6 +163,37 @@ export default {
   font-weight: 500;
   color: #777;
   margin-bottom: 1rem;
+}
+
+/* Selectors */
+.selectors {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.selectors select {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border-radius: 50px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  outline: none;
+  text-align: center;
+  appearance: none; /* remove default arrow */
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.selectors select:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.selectors select:hover {
+  background-color: #f0f0f0;
 }
 
 /* Button */
