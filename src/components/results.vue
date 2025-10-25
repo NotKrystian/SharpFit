@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="results-page">
     <!-- Search bar -->
     <div class="search-container">
-      <input v-model="searchQuery" placeholder="Search products..." />
+      <input v-model="searchQuery" placeholder="Search for premium suits..." />
     </div>
 
     <!-- Products -->
@@ -12,11 +12,14 @@
         v-for="product in filteredProducts"
         :key="product.id"
       >
-        <img :src="product.image" :alt="product.name" />
-        <h2>{{ product.name }}</h2>
+        <div class="image-wrapper">
+          <img :src="product.image" :alt="product.name" />
+        </div>
+        <h2 class="product-name">{{ product.name }}</h2>
         <p class="price">{{ product.price }}</p>
         <button @click="addToCart(product)">Add to Cart</button>
       </div>
+      <p v-if="filteredProducts.length === 0" class="no-results">No products found.</p>
     </div>
   </div>
 </template>
@@ -28,10 +31,10 @@ export default {
     return {
       searchQuery: '',
       products: [
-        { id: 1, name: 'T-Shirt', price: '$19.99', image: 'https://via.placeholder.com/200x250?text=T-Shirt' },
-        { id: 2, name: 'Jeans', price: '$49.99', image: 'https://via.placeholder.com/200x250?text=Jeans' },
-        { id: 3, name: 'Hoodie', price: '$39.99', image: 'https://via.placeholder.com/200x250?text=Hoodie' },
-        { id: 4, name: 'Sneakers', price: '$59.99', image: 'https://via.placeholder.com/200x250?text=Sneakers' }
+        { id: 1, name: 'Classic Tuxedo', price: '$499.99', image: 'https://via.placeholder.com/300x400?text=Classic+Tuxedo' },
+        { id: 2, name: 'Slim Fit Suit', price: '$399.99', image: 'https://via.placeholder.com/300x400?text=Slim+Fit+Suit' },
+        { id: 3, name: 'Modern Blazer', price: '$349.99', image: 'https://via.placeholder.com/300x400?text=Modern+Blazer' },
+        { id: 4, name: 'Luxury Hoodie Suit', price: '$299.99', image: 'https://via.placeholder.com/300x400?text=Luxury+Hoodie+Suit' }
       ]
     }
   },
@@ -51,34 +54,35 @@ export default {
 </script>
 
 <style scoped>
-/* Search bar styles */
+/* Base page */
+.results-page {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #222;
+  background-color: #fdfdfd;
+  padding: 2rem 1rem;
+}
+
+/* Search bar */
 .search-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 2rem 0;
+  margin-bottom: 3rem;
 }
 
-.search-container input,
-.search-container .cameraButton {
-  flex: 1;
-  max-width: 300px;
-  padding: 0.5rem;
-  border-radius: 4px;
+.search-container input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
   border: 1px solid #ccc;
-  text-align: center;
+  border-radius: 50px;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.3s ease;
 }
 
-.search-container .cameraButton {
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.search-container .cameraButton:hover {
-  background-color: #0056b3;
+.search-container input:focus {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-color: #aaa;
 }
 
 /* Product grid */
@@ -86,45 +90,79 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 2rem;
+  gap: 2rem;
 }
 
+/* Product card */
 .product-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin: 1rem;
-  padding: 1rem;
-  width: 200px;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 250px;
   text-align: center;
-  transition: box-shadow 0.2s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .product-card:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+}
+
+/* Product image */
+.image-wrapper {
+  overflow: hidden;
+  height: 350px;
 }
 
 .product-card img {
   width: 100%;
-  border-radius: 4px;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Product details */
+.product-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 1rem 0 0.25rem 0;
+  color: #111;
 }
 
 .price {
-  font-weight: bold;
-  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #777;
+  margin-bottom: 1rem;
 }
 
+/* Button */
 button {
-  margin-top: 0.5rem;
-  background-color: #007BFF;
+  background-color: #111;
+  color: #fff;
   border: none;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #444;
+}
+
+/* No results */
+.no-results {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #999;
+  margin-top: 2rem;
 }
 </style>

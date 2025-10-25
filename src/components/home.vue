@@ -1,7 +1,14 @@
 <template>
-<div class="search-container">
-  <input v-model="message" placeholder="Search" />
-  <button class="cameraButton" @click="openCamera">Camera</button>
+  <div class="home-page">
+    <header>
+      <h1>SharpFit</h1>
+      <p class="tagline">Luxury Suits for the Modern Gentleman</p>
+    </header>
+
+    <div class="search-container">
+      <input v-model="message" placeholder="Search for premium suits..." />
+      <button class="cameraButton" @click="openCamera">Camera</button>
+    </div>
   </div>
 </template>
 
@@ -21,51 +28,86 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+/* Page layout */
+.home-page {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #222;
+  background-color: #fdfdfd;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+}
 
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #111;
+}
+
+header .tagline {
+  font-size: 1.2rem;
+  color: #555;
+  letter-spacing: 0.5px;
+}
+
+/* Search bar */
 .search-container {
   display: flex;
-  justify-content: center; /* center horizontally */
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem; /* space between input and button */
-  margin: 2rem 0;
+  gap: 0.5rem;
   width: 100%;
+  max-width: 600px;
 }
 
 .search-container input,
 .search-container .cameraButton {
   flex: 1; /* equal width */
-  max-width: 300px; /* optional: limit maximum size */
-  padding: 0.5rem;
-  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  border-radius: 50px;
   border: 1px solid #ccc;
-  text-align: center; /* center placeholder text */
+  font-size: 1rem;
+  outline: none;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.search-container input:focus {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-color: #aaa;
 }
 
 .search-container .cameraButton {
-  background-color: #007BFF;
-  color: white;
+  background-color: #111;
+  color: #fff;
   border: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .search-container .cameraButton:hover {
-  background-color: #0056b3;
+  background-color: #444;
 }
 
+/* Typography resets */
 h1, h2 {
-  font-weight: normal;
+  font-weight: 600;
+  margin: 0;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+
+p {
+  margin: 0;
 }
 </style>

@@ -2,13 +2,17 @@
   <div class="app">
     <header>
       <h1>SharpFit</h1>
+      <p class="tagline">Luxury Suits for the Modern Gentleman</p>
       <nav>
-       <router-link to="/">Home</router-link>
-       <router-link to="/results">Results</router-link>
+        <router-link to="/">Home</router-link>
+        <router-link to="/results">Shop</router-link>
       </nav>
     </header>
 
-    <router-view />
+    <main>
+      <router-view />
+    </main>
+
     <footer>
       <p>&copy; 2025 SharpFit Clothing Store</p>
     </footer>
@@ -16,89 +20,70 @@
 </template>
 
 <script>
-
+export default {
+  name: 'App'
+}
 </script>
 
 <style scoped>
 .app {
-  background-color: #f9f9f9;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #fdfdfd;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* Header */
 header {
-  background-color: #222;
+  background-color: #111;
   color: #fff;
-  padding: 1rem;
   text-align: center;
+  padding: 2rem 1rem;
 }
 
-nav {
-  margin-top: 0.5rem;
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
+header .tagline {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #aaa;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation */
 nav a {
   color: #fff;
-  margin: 0 0.75rem;
+  margin: 0 1rem;
   text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  color: #42b983;
 }
 
-.products {
+/* Main */
+main {
+  flex: 1;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 2rem;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
 }
 
-.product-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin: 1rem;
-  padding: 1rem;
-  width: 200px;
-  text-align: center;
-  transition: box-shadow 0.2s;
-}
-
-.product-card:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.product-card img {
-  width: 100%;
-  border-radius: 4px;
-}
-
-.price {
-  font-weight: bold;
-  color: #333;
-}
-
-button {
-  margin-top: 0.5rem;
-  background-color: #007BFF;
-  border: none;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
+/* Footer */
 footer {
-  margin-top: auto;
-  background-color: #222;
-  color: #fff;
+  background-color: #111;
+  color: #aaa;
   text-align: center;
   padding: 1rem;
+  font-size: 0.9rem;
 }
 </style>
