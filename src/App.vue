@@ -3,44 +3,13 @@
     <header>
       <h1>SharpFit</h1>
       <nav>
-        <a href="#">Home</a>
-        <a href="#">Shop</a>
-        <a href="#">Cart (0)</a>
+       <router-link to="/">Home</router-link>
+       <router-link to="/results">Results</router-link>
       </nav>
     </header>
 
-    <main>
-      <div class="products">
-        <div class="product-card">
-          <img src="https://via.placeholder.com/200x250?text=T-Shirt" alt="Suit 1" />
-          <h2>Suit 1</h2>
-          <p class="price">$19.99</p>
-          <button>Add to Cart</button>
-        </div>
-
-        <div class="product-card">
-          <img src="https://via.placeholder.com/200x250?text=Jeans" alt="Suit 2" />
-          <h2>Suit 2</h2>
-          <p class="price">$49.99</p>
-          <button>Add to Cart</button>
-        </div>
-
-        <div class="product-card">
-          <img src="https://via.placeholder.com/200x250?text=Hoodie" alt="Suit 3" />
-          <h2>Suit 3</h2>
-          <p class="price">$39.99</p>
-          <button>Add to Cart</button>
-        </div>
-
-        <div class="product-card">
-          <img src="https://via.placeholder.com/200x250?text=Sneakers" alt="Suit 4" />
-          <h2>Suit 4</h2>
-          <p class="price">$59.99</p>
-          <button>Add to Cart</button>
-        </div>
-      </div>
-    </main>
-
+    <router-view />
+ 
     <footer>
       <p>&copy; 2025 SharpFit Clothing Store</p>
     </footer>
@@ -48,6 +17,7 @@
 </template>
 
 <script>
+
 </script>
 
 <style scoped>
