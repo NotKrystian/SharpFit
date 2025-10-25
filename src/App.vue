@@ -9,7 +9,6 @@
     </header>
 
     <router-view />
- 
     <footer>
       <p>&copy; 2025 SharpFit Clothing Store</p>
     </footer>

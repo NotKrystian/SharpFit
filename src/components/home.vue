@@ -8,13 +8,13 @@
 <script>
 export default {
   name: 'home',
-  data() {
+  data () {
     return {
       message: ''
     }
   },
   methods: {
-    openCamera() {
+    openCamera () {
       alert('Camera button clicked!')
     }
   }
