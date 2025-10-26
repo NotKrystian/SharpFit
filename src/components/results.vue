@@ -62,13 +62,13 @@ header {
   margin-top: .25rem;
 }
 .grid {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
   gap: 1rem;
 }
 .card {
   background: #fff;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #000000;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 4px 14px rgba(0,0,0,.04);
@@ -76,7 +76,7 @@ header {
 .card img {
   width: 100%;
   height: 260px;
-  object-fit: cover;
+  object-fit: scale-down;
   display: block;
   background: #f5f5f5;
 }
