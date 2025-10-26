@@ -6,30 +6,87 @@
     </header>
 
     <div class="search-container">
-      <input v-model="message" placeholder="Search for premium suits..." />
+      <input v-model="message" placeholder="Describe your occasion..." />
       <button class="cameraButton" @click="openCamera">Camera</button>
+      <input
+        ref="fileInput"
+        type="file"
+        accept="image/*"
+        capture="environment"
+        @change="onFileSelect"
+        style="display:none"
+      />
+      <button class="submitButton" :disabled="!file || loading" @click="submitForm">
+        {{ loading ? "Processing..." : "Submit" }}
+      </button>
     </div>
+
+    <p v-if="fileName" class="file-status">✅ {{ fileName }} selected</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'home',
-  data () {
+  name: 'Home',
+  data() {
     return {
-      message: ''
+      message: '',
+      file: null,
+      fileName: '',
+      loading: false
     }
   },
   methods: {
-    openCamera () {
-      alert('Camera button clicked!')
+    openCamera() {
+      this.$refs.fileInput.click()
+    },
+    onFileSelect(e) {
+      const selectedFile = e.target.files?.[0]
+      if (!selectedFile) return
+      this.file = selectedFile
+      this.fileName = selectedFile.name
+    },
+    async submitForm() {
+      if (!this.file) {
+        alert('Please select an image first.')
+        return
+      }
+
+      this.loading = true
+      const formData = new FormData()
+      formData.append('sentence', this.message)
+      formData.append('image', this.file)
+
+      try {
+        const res = await fetch('http://localhost:8000/process', {
+          method: 'POST',
+          body: formData
+        })
+
+        if (!res.ok) {
+          throw new Error(`Server responded with ${res.status}`)
+        }
+
+        const data = await res.json()
+
+        if (data.redirect) {
+          window.location.href = data.redirect
+        } else {
+          alert('Unexpected response from server.')
+          console.log('Response:', data)
+        }
+      } catch (err) {
+        console.error('Upload failed:', err)
+        alert('Failed to send image. Check console for details.')
+      } finally {
+        this.loading = false
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-/* Page layout */
 .home-page {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #222;
@@ -41,7 +98,6 @@ export default {
   padding: 3rem 1rem;
 }
 
-/* Header */
 header {
   text-align: center;
   margin-bottom: 3rem;
@@ -60,19 +116,20 @@ header .tagline {
   letter-spacing: 0.5px;
 }
 
-/* Search bar */
 .search-container {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
+  flex-wrap: wrap;
 }
 
 .search-container input,
-.search-container .cameraButton {
-  flex: 1; /* equal width */
+.search-container .cameraButton,
+.search-container .submitButton {
+  flex: 1;
   padding: 0.75rem 1rem;
   border-radius: 50px;
   border: 1px solid #ccc;
@@ -87,7 +144,8 @@ header .tagline {
   border-color: #aaa;
 }
 
-.search-container .cameraButton {
+.cameraButton,
+.submitButton {
   background-color: #111;
   color: #fff;
   border: none;
@@ -97,17 +155,19 @@ header .tagline {
   transition: background 0.3s ease;
 }
 
-.search-container .cameraButton:hover {
+.cameraButton:hover,
+.submitButton:hover {
   background-color: #444;
 }
 
-/* Typography resets */
-h1, h2 {
-  font-weight: 600;
-  margin: 0;
+.submitButton:disabled {
+  background-color: #777;
+  cursor: not-allowed;
 }
 
-p {
-  margin: 0;
+.file-status {
+  margin-top: 1rem;
+  color: #28a745;
+  font-weight: 500;
 }
 </style>
