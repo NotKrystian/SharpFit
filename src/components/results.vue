@@ -2,7 +2,7 @@
   <div class="results-page">
     <header>
       <h1>SharpFit Results</h1>
-      <p class="sub">Recommended suits for chest {{ chest }}</p>
+      <p class="sub">Recommended suits for chest {{getChestSize()}}</p>
     </header>
 
     <div v-if="ids.length" class="grid">
@@ -12,7 +12,7 @@
           :alt="`Suit ${id}`"
         />
         <div class="meta">
-          <h3>Suit {{ id }} — Chest {{ chest }}</h3>
+          <h3>Suit {{ id }} — Chest {{ getChestSize() }}</h3>
           <p>ID: {{ id }}</p>
         </div>
       </div>
@@ -32,14 +32,19 @@ export default {
   data() {
     const q = this.$route.query || {}
     const chest = q.chest ? String(q.chest) : ''
+    const chestBetter = (chest * 39.3700787).toPrecision(2).toString()
     const ids = (q.ids || '')
       .split(',')
+      .map(id => id.replace(/[\]\[\ \\]/g, ''))
       .filter(Boolean)
-    return { chest, ids }
+    return { chestBetter, ids }
   },
   methods: {
     getImagePath(id) {
       return `/Pictures/${id}.jpg`
+    },
+    getChestSize() {
+      return this.chestBetter
     }
   }
 }

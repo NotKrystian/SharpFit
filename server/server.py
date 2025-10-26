@@ -75,7 +75,7 @@ def process():
     )
 
     ids = gemini(prompt, user_image, db_images, csv_part)
-    url = f"/results?chest={chest}&ids={','.join(map(str, ids))}"
+    url = f"http://localhost:8080/#/results?chest={chest}&ids={ids}"
     resp = jsonify({"redirect": url})
     resp.headers.add("Access-Control-Allow-Origin", "http://localhost:8080")
     resp.headers.add("Access-Control-Allow-Headers", "Content-Type")
