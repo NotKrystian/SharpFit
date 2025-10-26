@@ -2,29 +2,16 @@
 
 > website for purchasing personalied suits
 
-## Build Setup
+# instructions for client usage:
 
-``` bash
-# install dependencies
-npm install
+> upload a full body photograph, forward facing with hands and feet apart
 
-# serve with hot reload at localhost:8080
-npm run dev
+> add a prompt for the program in the search bar to let the program know what kind of event you are attending in order to find appropriate suits
 
-# build for production with minification
-npm run build
+> click the submit button once you've finished uploading your image 
 
-# build for production and view the bundle analyzer report
-npm run build --report
+> the program will then process this by measuring chest size of the figure in the given image
 
-# run unit tests
-npm run unit
+> the program will take you to a results page displaying a selection of products in your size and fitting for your occasion.
 
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+> add your favourite products to cart and purchase.
