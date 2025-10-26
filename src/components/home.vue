@@ -110,7 +110,7 @@ header h1 {
 
 header .tagline {
   font-size: 1.2rem;
-  color: #b82d77;
+  color: #e1dfe0;
   letter-spacing: 0.5px;
 }
 
