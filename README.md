@@ -32,4 +32,3 @@ python server/server.py
 # run the getPose.py file
 python getPose.py img_name.jpg
 ```
-
