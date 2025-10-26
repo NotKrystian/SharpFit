@@ -1,8 +1,7 @@
 <template>
   <div class="home-page">
     <header>
-      <h1>SharpFit</h1>
-      <p class="tagline">Luxury Suits for the Modern Gentleman</p>
+      <p class="tagline">Enter your occasion below and attach a photo of yourself with 30cm between your heels and your hands on the sides of your chest facing forward towards the camera to analyse your body and suggest suits that are in stock and that fit your occasion.</p>
     </header>
 
     <div class="search-container">
@@ -90,7 +89,6 @@ export default {
 .home-page {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #222;
-  background-color: #fdfdfd;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -112,7 +110,7 @@ header h1 {
 
 header .tagline {
   font-size: 1.2rem;
-  color: #555;
+  color: #b82d77;
   letter-spacing: 0.5px;
 }
 

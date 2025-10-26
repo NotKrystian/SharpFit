@@ -4,6 +4,8 @@ from flask_cors import CORS, cross_origin
 from PIL import Image
 from asyncio.subprocess import create_subprocess_exec, PIPE
 from google import genai
+import csv
+
 
 client = genai.Client(api_key="AIzaSyCAalnkqZ6pbj3mUVpzNw_DOUG58fxO0EY")
 
@@ -49,8 +51,8 @@ def gemini(prompt, user_image, db_images, csv_part):
     )
 
     text = response.text.strip()
-    ids = [int(x.strip()) for x in text.replace("\n", " ").split(",") if x.strip().isdigit()][:4]
-    return ids
+    num = [int(x.strip()) for x in text.replace("\n", " ").split(",") if x.strip().isdigit()][:4]
+    return num
 
 @app.route("/process", methods=["POST"])
 def process():
@@ -71,13 +73,27 @@ def process():
     prompt = (
         "You are a stylist. You will receive: 1) an uploaded person photo, 2) a chest size estimate, "
         "3) a suit photo database, 4) a CSV of IDs and attributes, 5) a user sentence.\n\n"
-        f"Chest size: {chest}\nUser sentence: {sentence}\n\n"
-        "Respond with four comma-separated suit IDs, no extra words."
+        f"Chest size : {chest}\nUser sentence: {sentence}\n\n"
+        "Respond with four comma-separated suit num's, no extra words."
         "Check the chest size estimate, then only display suits that have the corresponding chest size with a yes in the stock attribute."
     )
 
-    ids = gemini(prompt, user_image, db_images, csv_part)
-    url = f"http://localhost:8080/#/results?chest={chest}&ids={ids}"
+    data=csv.reader(open('public/SuitData.csv'), delimiter=',')
+    prices,idsX ,names = [], [],[]
+    for row in data:
+        prices.append(row[8])
+        idsX.append([row[0]])
+        names.append(row[4])
+
+
+    print(prices)
+    ids = []
+    num = gemini(prompt, user_image, db_images, csv_part)
+    for i in range(len(num)):
+        ids.append(idsX[num[i]-1])
+    prices = [prices[num[i]-1] for i in range(len(num))]
+    names = [names[num[i]-1] for i in range(len(num))]
+    url = f"http://localhost:8080/#/results?chest={chest}&ids={ids}&prices={prices}&names={names}"
     resp = jsonify({"redirect": url})
     resp.headers.add("Access-Control-Allow-Origin", "http://localhost:8080")
     resp.headers.add("Access-Control-Allow-Headers", "Content-Type")

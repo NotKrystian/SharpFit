@@ -1,8 +1,8 @@
 <template>
   <div class="results-page">
     <header>
-      <h1>SharpFit Results</h1>
-      <p class="sub">Recommended suits for chest {{getChestSize()}}</p>
+      <h1>Personalised Results - In Stock Now</h1>
+      <p class="sub">Recommended suits for chest size {{getChestSize()}}</p>
     </header>
 
     <div v-if="ids.length" class="grid">
@@ -12,8 +12,8 @@
           :alt="`Suit ${id}`"
         />
         <div class="meta">
-          <h3>Suit {{ id }} — Chest {{ getChestSize() }}</h3>
-          <p>ID: {{ id }}</p>
+          <h3>Suit {{ getName(id) }} — Chest {{ getChestSize() }}</h3>
+          <p>Price: £{{ getPrice(id) }}</p>
         </div>
       </div>
     </div>
@@ -32,12 +32,31 @@ export default {
   data() {
     const q = this.$route.query || {}
     const chest = q.chest ? String(q.chest) : ''
-    const chestBetter = (chest * 39.3700787).toPrecision(2).toString()
-    const ids = (q.ids || '')
+    const price = (q.prices || '')
+      .replace(/[\[\]']/g, '')
       .split(',')
-      .map(id => id.replace(/[\]\[\ \\]/g, ''))
+      .map(Number)
+    const ids = (q.ids || '')
+      .replace(/[\[\]']/g, '')
+      .split(',')
+      .map(Number)
       .filter(Boolean)
-    return { chest, ids }
+
+    const prices = []
+    console.log(price, ids, names)
+    for (let i = 0; i < ids.length; i++) {
+      prices[ids[i]] = `${price[i]}`
+    }
+    const names = (q.names || '')
+      .replace(/[\[\]']/g, '')
+      .split(',')
+
+    const namesX = []
+    for (let i = 0; i < ids.length; i++) {
+      namesX[ids[i]] = names[i] || 'Standard'
+    }
+
+    return { chest, ids, prices,namesX }
   },
   methods: {
     getImagePath(id) {
@@ -45,10 +64,17 @@ export default {
     },
     getChestSize() {
       return this.chest
+    },
+    getPrice(id) {
+      return this.prices[id] || 'N/A'
+    },
+    getName(id) {
+      return this.namesX[id] || 'Standard'
     }
   }
 }
 </script>
+
 
 <style scoped>
 .results-page {
@@ -59,11 +85,12 @@ export default {
   margin: 0 auto;
 }
 header {
+  color:#fdfdfd;
   text-align: center;
   margin-bottom: 2rem;
 }
 .sub {
-  color: #666;
+  color: #baaab3;
   margin-top: .25rem;
 }
 .grid {
@@ -89,6 +116,7 @@ header {
   padding: .75rem 1rem 1rem;
 }
 .meta h3 {
+  color:#000000;
   font-size: 1rem;
   margin: 0 0 .25rem;
   font-weight: 700;
