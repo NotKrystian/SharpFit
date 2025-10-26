@@ -37,14 +37,14 @@ export default {
       .split(',')
       .map(id => id.replace(/[\]\[\ \\]/g, ''))
       .filter(Boolean)
-    return { chestBetter, ids }
+    return { chest, ids }
   },
   methods: {
     getImagePath(id) {
       return `/Pictures/${id}.jpg`
     },
     getChestSize() {
-      return this.chestBetter
+      return this.chest
     }
   }
 }

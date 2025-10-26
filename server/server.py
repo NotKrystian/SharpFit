@@ -60,6 +60,7 @@ def process():
     image_bytes = file.read()
     import asyncio
     chest = asyncio.run(run_pose(image_bytes))
+    chest = round(chest * 39.3700787)
     user_image = encode_image(image_bytes)
     db_files = sorted(glob.glob(os.path.join(PHOTO_DIR, "**", "*.*"), recursive=True))
     db_images = [encode_file(p) for p in db_files]
@@ -72,6 +73,7 @@ def process():
         "3) a suit photo database, 4) a CSV of IDs and attributes, 5) a user sentence.\n\n"
         f"Chest size: {chest}\nUser sentence: {sentence}\n\n"
         "Respond with four comma-separated suit IDs, no extra words."
+        "Check the chest size estimate, then only display suits that have the corresponding chest size with a yes in the stock attribute."
     )
 
     ids = gemini(prompt, user_image, db_images, csv_part)
